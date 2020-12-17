@@ -1,5 +1,6 @@
 main{
     background-color: $bg_main;
+    height: 700px;
 
     .container{
         @include flex-row(center,center);

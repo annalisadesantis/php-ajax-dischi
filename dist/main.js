@@ -10992,7 +10992,7 @@ $(document).ready(function () {
     url: "vers-ajax/../dischi.php",
     // Metodo richiesta
     method: "GET",
-    // Chaiamata a buon fine
+    // Chiamata a buon fine
     success: function success(data) {
       console.log(data); // Ciclo l'array che mi viene fornito dalla chiamata ajax
 
@@ -11014,30 +11014,44 @@ $(document).ready(function () {
     error: function error() {
       console.log("errore");
     }
-  }); // chiamata ajax
+  }); // Filtro lato client
 
-  $.ajax({
-    // Il server che verrà chiamato
-    url: "vers-ajax/../dischi.php",
-    // Metodo richiesta
-    method: "GET",
-    // Chaiamata a buon fine
-    success: function success(data) {
-      // Ciclo l'array che mi viene fornito dalla chiamata ajax
-      for (var i = 0; i < data.length; i++) {
-        var generi = [];
+  $('.tendina').on('change', function () {
+    var genereDaRicercare = this.value;
+    console.log('genere', genereDaRicercare); // chiamata ajax
 
-        if (!generi.includes(data[i].genre)) {
-          generi.push(data[i].genre);
+    $.ajax({
+      // Il server che verrà chiamato
+      url: "vers-ajax/../dischi.php",
+      // passiamo su query st ring il filtro
+      // Metodo richiesta
+      method: "GET",
+      // Chiamata a buon fine
+      success: function success(data) {
+        // Svuoto il container
+        $(".container").empty(); // Ciclo l'array che mi viene fornito dalla chiamata ajax
+
+        for (var i = 0; i < data.length; i++) {
+          if (genereDaRicercare == '' || data[i].genre.toLowerCase() == genereDaRicercare.toLowerCase()) {
+            // Salvo i dati ciclati
+            var risultatiFiltrati = {
+              "poster": data[i].poster,
+              "title": data[i].title,
+              "author": data[i].author,
+              "year": data[i].year
+            }; // Salvo i dati ciclati in una variabile
+
+            var stampoRisultatiFiltrati = template(risultatiFiltrati); // Stampo in pagina i dati ricavati$
+
+            $(".container").append(stampoRisultatiFiltrati);
+          }
         }
-
-        console.log(generi);
+      },
+      // In caso la chiamata ajax non vada a buon fine
+      error: function error() {
+        console.log("errore");
       }
-    },
-    // In caso la chiamata ajax non vada a buon fine
-    error: function error() {
-      console.log("errore");
-    }
+    });
   });
 });
 
