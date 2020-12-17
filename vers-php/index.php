@@ -1,3 +1,4 @@
+<?php include "dischi.php" ?>
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
     <head>
@@ -17,12 +18,16 @@
         </header>
         <main>
             <div class="container">
-                <div class="card">
-                    <img src="{{ poster }}" alt="disco.author">
-                    <h3>{{ title }}></h3>
-                    <h4>{{ author }}></h4>
-                    <span>{{year}}</span>
-                </div>
+                <?php foreach ($dischi as $disco) { ?>
+                    <div class="card">
+                        <img src="<?php echo $disco["poster"]; ?>" alt="disco.author">
+                        <h3><?php echo $disco["title"]; ?></h3>
+                        <h4><?php echo $disco["author"]; ?></h4>
+                        <span><?php echo $disco["year"]; ?></span>
+                    </div>
+                <?php
+                }
+                ?>
             </div>
         </main>
     </body>

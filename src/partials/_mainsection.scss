@@ -1,1 +1,32 @@
+main{
+    background-color: $bg_main;
 
+    .container{
+        @include flex-row(center,center);
+        flex-wrap: wrap;
+    }
+
+    .card{
+        width: 200px;
+        height: 300px;
+        background-color: $bg_header;
+        margin: 20px;
+        @include flex-column(column,space-around,center);
+        font-size: 15px;
+
+        h3, span{
+            color: $text_prim;
+        }
+
+        img{
+            width: 150px;
+            height: 150px;
+        }
+
+        h4{
+            color: $text_seco;
+        }
+    }
+
+
+}
