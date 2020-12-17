@@ -11014,6 +11014,30 @@ $(document).ready(function () {
     error: function error() {
       console.log("errore");
     }
+  }); // chiamata ajax
+
+  $.ajax({
+    // Il server che verrà chiamato
+    url: "vers-ajax/../dischi.php",
+    // Metodo richiesta
+    method: "GET",
+    // Chaiamata a buon fine
+    success: function success(data) {
+      // Ciclo l'array che mi viene fornito dalla chiamata ajax
+      for (var i = 0; i < data.length; i++) {
+        var generi = [];
+
+        if (!generi.includes(data[i].genre)) {
+          generi.push(data[i].genre);
+        }
+
+        console.log(generi);
+      }
+    },
+    // In caso la chiamata ajax non vada a buon fine
+    error: function error() {
+      console.log("errore");
+    }
   });
 });
 
