@@ -12,7 +12,7 @@
     </head>
     <body>
         <header>
-            <div class="container">
+            <div class="container-header">
                 <img src="icon-spotify.png" alt="icon-spotify">
             </div>
         </header>

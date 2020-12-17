@@ -12,13 +12,13 @@ header {
   height: 80px;
   background-color: #1a1110;
 }
-header .container {
+header .container-header {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100%;
 }
-header .container img {
+header .container-header img {
   width: 50px;
   height: 50px;
 }
@@ -45,6 +45,7 @@ main .card {
 }
 main .card h3, main .card span {
   color: #ffffff;
+  margin: 0 5px;
 }
 main .card img {
   width: 150px;

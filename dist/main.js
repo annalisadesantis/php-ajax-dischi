@@ -10979,6 +10979,32 @@ return jQuery;
 
 var $ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 
+$(document).ready(function () {
+  var sorgente = $("#card-template").html();
+  var template = Handlebars.compile(sorgente);
+  $.ajax({
+    url: "vers-ajax/../dischi.php",
+    method: "GET",
+    success: function success(data) {
+      console.log(data);
+
+      for (var i = 0; i < data.length; i++) {
+        var risultati = {
+          "poster": data[i].poster,
+          "title": data[i].title,
+          "author": data[i].author,
+          "year": data[i].year
+        };
+        var stampoRisultati = template(risultati);
+        $(".container").append(stampoRisultati);
+      }
+    },
+    error: function error() {
+      console.log("errore");
+    }
+  });
+});
+
 /***/ }),
 
 /***/ "./src/style.scss":

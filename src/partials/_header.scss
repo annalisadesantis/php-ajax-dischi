@@ -2,7 +2,7 @@ header{
     height: 80px;
     background-color: $bg_header;
 
-    .container{
+    .container-header{
         @include flex-row(center,center);
         height: 100%;
 
