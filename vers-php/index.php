@@ -53,6 +53,12 @@
                 <span>{{ year }}</span>
             </div>
         </script>
+        <!-- TEMPLATE tendina Handlebars -->
+        <script id="select-template" type="text/x-handlebars-template">
+            <option value="{{ genre }}">
+                {{ genre }}
+            </option>
+        </script>
         <!-- JAVASCRIPT -->
         <script src="../dist/main.js" charset="utf-8"></script>
     </body>
