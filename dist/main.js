@@ -10992,7 +10992,7 @@ $(document).ready(function () {
 
   var sorgente_select = $("#select-template").html(); // dico a handlebars di compilare il sorgente
 
-  var template_select = Handlebars.compile(sorgente_select); // Versione ajax
+  var template_select = Handlebars.compile(sorgente_select);
 
   if ($("#versione-ajax").length) {
     // Faccio la chiamata ajax

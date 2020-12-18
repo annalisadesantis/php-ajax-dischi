@@ -19,7 +19,7 @@ $(document).ready(function() {
     const template_select = Handlebars.compile(sorgente_select);
 
 
-    // Versione ajax
+    
     if ($("#versione-ajax").length) {
 
         // Faccio la chiamata ajax
@@ -86,6 +86,7 @@ $(document).ready(function() {
             }
         });
     }
+
 
     // Intercetto i cambiamenti nella select
     $(".tendina").change(function() {
