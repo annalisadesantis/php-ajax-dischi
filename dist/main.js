@@ -10981,11 +10981,18 @@ return jQuery;
 var $ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 
 $(document).ready(function () {
+  // TEMPLATE CARD ------------------------
   // Inizializzo i passaggi handlebars
   // dove si trova il template nel mio file html
   var sorgente = $("#card-template").html(); // dico a handlebars di compilare il sorgente
 
-  var template = Handlebars.compile(sorgente); // Versione ajax
+  var template = Handlebars.compile(sorgente); // TEMPLATE SELECT ------------------------
+  // Inizializzo i passaggi handlebars
+  // dove si trova il template nel mio file html
+
+  var sorgente_select = $("#select-template").html(); // dico a handlebars di compilare il sorgente
+
+  var template_select = Handlebars.compile(sorgente_select); // Versione ajax
 
   if ($("#versione-ajax").length) {
     // Faccio la chiamata ajax
@@ -11022,8 +11029,18 @@ $(document).ready(function () {
 
 
         for (var i = 0; i < genres.length; i++) {
-          // Stampo ogni genere con il suo tag nel html
-          $(".tendina").append("\n                        <option value=\"".concat(genres[i], "\">\n                            ").concat(genres[i], "\n                        </option>"));
+          var genere = {
+            "genre": genres[i]
+          }; // Salvo i dati ciclati in una variabile
+
+          var stampogeneri = template_select(genere); // Stampo in pagina i dati ricavati
+
+          $(".tendina").append(stampogeneri); // Versione con template literal
+          // // Stampo ogni genere con il suo tag nel html
+          // $(".tendina").append(`
+          //     <option value="${genres[i]}">
+          //         ${genres[i]}
+          //     </option>`);
         }
       },
       // In caso la chiamata ajax non vada a buon fine

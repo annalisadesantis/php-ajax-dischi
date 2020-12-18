@@ -4,12 +4,19 @@ const $ = require( "jquery" );
 $(document).ready(function() {
 
 
-    
+    // TEMPLATE CARD ------------------------
     // Inizializzo i passaggi handlebars
     // dove si trova il template nel mio file html
     const sorgente = $("#card-template").html();
     // dico a handlebars di compilare il sorgente
     const template = Handlebars.compile(sorgente);
+
+    // TEMPLATE SELECT ------------------------
+    // Inizializzo i passaggi handlebars
+    // dove si trova il template nel mio file html
+    const sorgente_select = $("#select-template").html();
+    // dico a handlebars di compilare il sorgente
+    const template_select = Handlebars.compile(sorgente_select);
 
 
     // Versione ajax
@@ -55,11 +62,22 @@ $(document).ready(function() {
 
                 // Ciclo l'array generi
                 for (var i = 0; i < genres.length; i++) {
-                    // Stampo ogni genere con il suo tag nel html
-                    $(".tendina").append(`
-                        <option value="${genres[i]}">
-                            ${genres[i]}
-                        </option>`);
+
+                    var genere = {
+                        "genre": genres[i]
+                    };
+
+                    // Salvo i dati ciclati in una variabile
+                    var stampogeneri = template_select(genere);
+                    // Stampo in pagina i dati ricavati
+                    $(".tendina").append(stampogeneri);
+
+                    // Versione con template literal
+                    // // Stampo ogni genere con il suo tag nel html
+                    // $(".tendina").append(`
+                    //     <option value="${genres[i]}">
+                    //         ${genres[i]}
+                    //     </option>`);
                 }
             },
             // In caso la chiamata ajax non vada a buon fine
