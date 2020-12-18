@@ -10985,66 +10985,45 @@ $(document).ready(function () {
   // dove si trova il template nel mio file html
   var sorgente = $("#card-template").html(); // dico a handlebars di compilare il sorgente
 
-  var template = Handlebars.compile(sorgente); // chiamata ajax
+  var template = Handlebars.compile(sorgente); // Versione ajax
 
-  $.ajax({
-    // Il server che verrà chiamato
-    url: "vers-ajax/../dischi.php",
-    // Metodo richiesta
-    method: "GET",
-    // Chiamata a buon fine
-    success: function success(data) {
-      console.log(data); // Ciclo l'array che mi viene fornito dalla chiamata ajax
-
-      for (var i = 0; i < data.length; i++) {
-        // Salvo i dati ciclati
-        var risultati = {
-          "poster": data[i].poster,
-          "title": data[i].title,
-          "author": data[i].author,
-          "year": data[i].year
-        }; // Salvo i dati ciclati in una variabile
-
-        var stampoRisultati = template(risultati); // Stampo in pagina i dati ricavati
-
-        $(".container").append(stampoRisultati);
-      }
-    },
-    // In caso la chiamata ajax non vada a buon fine
-    error: function error() {
-      console.log("errore");
-    }
-  }); // Filtro lato client
-
-  $('.tendina').on('change', function () {
-    var genereDaRicercare = this.value;
-    console.log('genere', genereDaRicercare); // chiamata ajax
-
+  if ($("#versione-ajax").length) {
+    // Faccio la chiamata ajax
     $.ajax({
       // Il server che verrà chiamato
-      url: "vers-ajax/../dischi.php",
-      // passiamo su query st ring il filtro
+      url: "../dischi.php",
       // Metodo richiesta
       method: "GET",
       // Chiamata a buon fine
       success: function success(data) {
-        // Svuoto il container
-        $(".container").empty(); // Ciclo l'array che mi viene fornito dalla chiamata ajax
+        // Creo un array per i generi
+        var genres = []; // Ciclo l'array che mi viene fornito dalla chiamata ajax
 
         for (var i = 0; i < data.length; i++) {
-          if (genereDaRicercare == '' || data[i].genre.toLowerCase() == genereDaRicercare.toLowerCase()) {
-            // Salvo i dati ciclati
-            var risultatiFiltrati = {
-              "poster": data[i].poster,
-              "title": data[i].title,
-              "author": data[i].author,
-              "year": data[i].year
-            }; // Salvo i dati ciclati in una variabile
+          // Salvo i dati ciclati
+          var risultati = {
+            "poster": data[i].poster,
+            "title": data[i].title,
+            "author": data[i].author,
+            "year": data[i].year
+          }; // Salvo i dati ciclati in una variabile
 
-            var stampoRisultatiFiltrati = template(risultatiFiltrati); // Stampo in pagina i dati ricavati$
+          var stampoRisultati = template(risultati); // Stampo in pagina i dati ricavati
 
-            $(".container").append(stampoRisultatiFiltrati);
+          $(".container").append(stampoRisultati); // Quando ciclo recupero il genere del disco corrente
+
+          var current_genre = data[i].genre; // Verifico se questo il genere corrente esiste già nell'array creato prima
+
+          if (!genres.includes(current_genre)) {
+            // Se non esiste faccio push
+            genres.push(current_genre);
           }
+        } // Ciclo l'array generi
+
+
+        for (var i = 0; i < genres.length; i++) {
+          // Stampo ogni genere con il suo tag nel html
+          $(".tendina").append("\n                        <option value=\"".concat(genres[i], "\">\n                            ").concat(genres[i], "\n                        </option>"));
         }
       },
       // In caso la chiamata ajax non vada a buon fine
@@ -11052,7 +11031,92 @@ $(document).ready(function () {
         console.log("errore");
       }
     });
-  });
+  } // Intercetto i cambiamenti nella select
+
+
+  $(".tendina").change(function () {
+    // Svuoto il contenitore per far spazio ai nuovi dati
+    $(".container").empty(); // Salvo il valore del genere selezionato in una variabile
+
+    var selected_genre = $(this).val(); // Faccio una chiamata ajax inviando al server il genere selezionato
+
+    $.ajax({
+      // Il server che verrà chiamato
+      url: "../dischi.php",
+      // Metodo richiesta
+      method: "GET",
+      // Inserisco la query string che comunicherà con il file php
+      data: {
+        // Qui inserisco il valore selezionato della select
+        genre: selected_genre
+      },
+      // Chiamata a buon fine
+      success: function success(data) {
+        // Ciclo l'array che mi viene fornito dalla chiamata ajax (viene già filtrato)
+        for (var i = 0; i < data.length; i++) {
+          var context = {
+            "poster": data[i].poster,
+            "title": data[i].title,
+            "author": data[i].author,
+            "year": data[i].year
+          };
+          var html = template(context);
+          $(".container").append(html);
+        }
+      },
+      error: function error() {
+        console.log("errore");
+      }
+    });
+  }); // // Filtro lato client
+  // $('.tendina').on('change', function() {
+  //
+  //   var genereDaRicercare = this.value;
+  //
+  //   console.log('genere', genereDaRicercare);
+  //
+  //     // chiamata ajax
+  //     $.ajax({
+  //
+  //         // Il server che verrà chiamato
+  //         url: "vers-ajax/../dischi.php",
+  //         // passiamo su query st ring il filtro
+  //         // Metodo richiesta
+  //         method: "GET",
+  //         // Chiamata a buon fine
+  //         success: function(data){
+  //
+  //             // Svuoto il container
+  //             $(".container").empty();
+  //
+  //             // Ciclo l'array che mi viene fornito dalla chiamata ajax
+  //             for (var i = 0; i < data.length; i++) {
+  //
+  //                 if (genereDaRicercare == '' || data[i].genre.toLowerCase() == genereDaRicercare.toLowerCase()) {
+  //
+  //                     // Salvo i dati ciclati
+  //                     var risultatiFiltrati = {
+  //                         "poster": data[i].poster,
+  //                         "title": data[i].title,
+  //                         "author": data[i].author,
+  //                         "year": data[i].year
+  //                     };
+  //                     // Salvo i dati ciclati in una variabile
+  //                     var stampoRisultatiFiltrati = template(risultatiFiltrati);
+  //                     // Stampo in pagina i dati ricavati$
+  //                     $(".container").append(stampoRisultatiFiltrati);
+  //                 }
+  //
+  //             }
+  //
+  //         },
+  //         // In caso la chiamata ajax non vada a buon fine
+  //         error: function(){
+  //             console.log("errore");
+  //         }
+  //     });
+  //
+  // });
 });
 
 /***/ }),

@@ -1,4 +1,4 @@
-<?php include "dischi.php" ?>
+<?php include "../dischi.php" ?>
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
     <head>
@@ -9,11 +9,25 @@
         <!-- GOOGLE FONT -->
         <link rel="preconnect" href="https://fonts.gstatic.com">
         <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+        <!-- HANDLEBARS -->
+        <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
     </head>
     <body>
         <header>
             <div class="container-header">
-                <img src="icon-spotify.png" alt="icon-spotify">
+                <img src="../icon-spotify.png" alt="icon-spotify">
+                <select class="tendina">
+                    <option value="">
+                        Seleziona
+                    </option>
+                    <?php foreach ($genres as $genre) { ?>
+                            <option value="<?php echo $genre ?>">
+                                <?php echo $genre ?>
+                            </option>
+                        <?php
+                        }
+                    ?>
+                </select>
             </div>
         </header>
         <main>
@@ -30,5 +44,16 @@
                 ?>
             </div>
         </main>
+        <!-- TEMPLATE Handlebars -->
+        <script id="card-template" type="text/x-handlebars-template">
+            <div class="card">
+                <img src="{{ poster }}" alt="{{ title }}">
+                <h3>{{ title }}</h3>
+                <h4>{{ author }}</h4>
+                <span>{{ year }}</span>
+            </div>
+        </script>
+        <!-- JAVASCRIPT -->
+        <script src="../dist/main.js" charset="utf-8"></script>
     </body>
 </html>

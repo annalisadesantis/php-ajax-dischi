@@ -71,6 +71,47 @@ $dischi = [
         'year' => '1987'
     ]
 ];
-header('Content-Type: application/json');
-echo json_encode($dischi);
+
+// Creo un array generi
+$genres = [];
+// Faccio un ciclo per ciclare l'array dischi
+foreach ($dischi as $disco) {
+    // Recupero il genere del disco corrente
+    $genre = $disco['genre'];
+    if(!in_array($genre, $genres)){
+        $genres[] = $genre;
+    }
+}
+
+
+if ( !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest' ){
+
+    // Verifico se esiste un parametro GET "genre"
+    if(!empty($_GET) && !empty($_GET['genre'])) {
+
+        // Salvo il parametro GET "genre"
+        $genre = $_GET['genre'];
+
+        // Creo un array per poi salvare i dischi con il filtro di genere
+        $dischi_filtrati = [];
+
+        // Ciclo l'array dischi
+        foreach ($dischi as $disco) {
+            // Verifico se il genere get è uguale a quello ciclato correntemente
+            if($disco['genre'] == $genre) {
+                // Faccio push del genere nell'array che avevo creato prima
+                $dischi_filtrati[] = $disco;
+            }
+        }
+
+    }else {
+        // Quando il genere è vuoto oppure non ci sono parametri nella query string
+        $dischi_filtrati = $dischi;
+    }
+
+    // Coverto il risultato della chiamata in un file jason per essere leggibile da js
+    header('Content-Type: application/json');
+    echo json_encode($dischi_filtrati);
+
+}
 ?>
